@@ -1,27 +1,27 @@
 module.exports = {
     node: {
-        __dirname: true
+        __dirname: true,
     },
     entry: './test/app.js',
-    output:{
+    output: {
         path: __dirname + '/test/',
-        filename: 'index.js'
+        filename: 'index.js',
     },
-    module:{
-        loaders:[
+    module: {
+        loaders: [
             {
-                test:/\.sass$/,
-                loader: 'style!css!sass'
+                test: /\.sass$/,
+                loader: 'style!css!sass',
             }, {
                 test: /\.js/,
                 loader: 'babel-loader',
                 exclude: /(node_modules\bower_components)/,
-                query:{
-                    presets :['es2015', 'es2016']
-                }
-            }
-        ]
+                query: {
+                    presets: ['es2015'],
+                },
+            },
+        ],
     },
     watch: true,
-    devtool: 'source-map'
+    devtool: 'source-map',
 };

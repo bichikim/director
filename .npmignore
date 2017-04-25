@@ -5,7 +5,4 @@
 /vendor
 .eslintrc.js
 npm-debug.log
-webpack.config.dev.js
-webpack.config.prod.js
-webpack.config.prod_min.js
 webpack.config.watch.js
