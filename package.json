@@ -4,7 +4,8 @@
   "description": "Rendering manager",
   "main": "./dist/index.js",
   "scripts": {
-    "production": "webpack --config webpack.config.pro.js",
+    "production": "babel ./src -d ./dist",
+    "production-min": "babili ./src -d ./dist",
     "watch": "webpack --config webpack.config.watch.js"
   },
   "repository": {
@@ -24,6 +25,7 @@
     "babel-preset-env": "^1.4.0",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-es2016": "^6.24.1",
+    "babili": "0.0.12",
     "color-string": "^1.5.2",
     "css-loader": "^0.28.0",
     "node-sass": "^4.5.2",
