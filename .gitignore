@@ -3,4 +3,5 @@
 /test
 npm-debug.log
 .eslintrc.js
+webpack.config.pro.js
 webpack.config.watch.js
