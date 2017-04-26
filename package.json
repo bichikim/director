@@ -2,7 +2,7 @@
   "name": "bichi-birector",
   "version": "0.0.1",
   "description": "Rendering manager",
-  "main": "./index.js",
+  "main": "./dist/index.js",
   "scripts": {
     "production": "babel ./src/app.js --out-file ./dist/index.js",
     "watch": "webpack --config webpack.config.watch.js"
@@ -36,8 +36,7 @@
     "webpack": "^2.4.1"
   },
   "dependencies": {
-    "@nodeart/event_emitter": "^1.0.6",
     "bichi-assembler": "^0.0.2",
-    "bichi-waiter": "^1.0.14"
+    "bichi-waiter": "^1.0.16"
   }
 }
