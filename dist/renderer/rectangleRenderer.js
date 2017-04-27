@@ -53,13 +53,8 @@ var RectangleRenderer = function (_Renderer) {
                 if (_lodash2.default.isNumber(itemLogic.width) && _lodash2.default.isNumber(itemLogic.height)) {
                     displayObject.drawRect(0, 0, itemLogic.width, itemLogic.height);
                 }
-                if (_lodash2.default.isNumber(itemLogic.x)) {
-                    displayObject.x = itemLogic.x;
-                }
-                if (_lodash2.default.isNumber(itemLogic.y)) {
-                    displayObject.y = itemLogic.y;
-                }
             }
+            _renderer2.default._makePosition(displayObject, itemLogic);
             this._setButton(displayObject, itemLogic);
             return displayObject;
         }

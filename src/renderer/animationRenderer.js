@@ -11,18 +11,8 @@ export default class AnimationRenderer extends Renderer {
             } else {
                 throw new Error('Need width and height');
             }
-            if (_.isNumber(itemLogic.x)) {
-                displayObject.x = itemLogic.x;
-            }
-            if (_.isNumber(itemLogic.y)) {
-                displayObject.y = itemLogic.y;
-            }
-            if (_.isNumber(itemLogic.width)) {
-                displayObject.width = itemLogic.width;
-            }
-            if (_.isNumber(itemLogic.height)) {
-                displayObject.height = itemLogic.height;
-            }
+            Renderer._makeSize(displayObject, itemLogic);
+            Renderer._makePosition(displayObject, itemLogic);
             this._setButton(displayObject, itemLogic);
         }
         return displayObject;

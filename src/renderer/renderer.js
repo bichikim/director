@@ -20,13 +20,14 @@ export default class Renderer {
 
     _makeDisplayObject(itemLogic, texture) {
         const displayObject = new PIXI.Sprite(texture);
+        Renderer._makeSize(displayObject, itemLogic);
+        Renderer._makePosition(displayObject, itemLogic);
+        this._setButton(displayObject, itemLogic);
+        return displayObject;
+    }
+
+    static _makeSize(displayObject, itemLogic) {
         if (_.isObject(itemLogic)) {
-            if (_.isNumber(itemLogic.x)) {
-                displayObject.x = itemLogic.x;
-            }
-            if (_.isNumber(itemLogic.y)) {
-                displayObject.y = itemLogic.y;
-            }
             if (_.isNumber(itemLogic.width)) {
                 displayObject.width = itemLogic.width;
             }
@@ -34,15 +35,24 @@ export default class Renderer {
                 displayObject.height = itemLogic.height;
             }
         }
-        this._setButton(displayObject, itemLogic);
-        return displayObject;
+    }
+
+    static _makePosition(displayObject, itemLogic) {
+        if (_.isObject(itemLogic)) {
+            if (_.isNumber(itemLogic.x)) {
+                displayObject.x = itemLogic.x;
+            }
+            if (_.isNumber(itemLogic.y)) {
+                displayObject.y = itemLogic.y;
+            }
+        }
     }
 
     get stage() {
         return this._stage;
     }
 
-    clear(){
+    clear() {
         return this._stage.removeChildren();
     }
 

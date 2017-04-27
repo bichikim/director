@@ -28,4 +28,11 @@ export default {
             }
         },
     },
+    text: {
+        callback(displayLogic){
+            if (_.isArray(displayLogic.texts)) {
+                this._renderers.text.render(displayLogic.texts)
+            }
+        },
+    },
 }

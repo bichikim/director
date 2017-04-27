@@ -21,14 +21,8 @@ export default class RectangleRenderer extends Renderer {
             if (_.isNumber(itemLogic.width) && _.isNumber(itemLogic.height)) {
                 displayObject.drawRect(0, 0, itemLogic.width, itemLogic.height);
             }
-            if (_.isNumber(itemLogic.x)) {
-                displayObject.x = itemLogic.x;
-            }
-            if (_.isNumber(itemLogic.y)) {
-                displayObject.y = itemLogic.y;
-            }
-
         }
+        Renderer._makePosition(displayObject, itemLogic);
         this._setButton(displayObject, itemLogic);
         return displayObject;
     }

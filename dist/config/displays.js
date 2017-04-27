@@ -38,5 +38,12 @@ exports.default = {
                 this._renderers.rectangle.render(displayLogic.buttons);
             }
         }
+    },
+    text: {
+        callback: function callback(displayLogic) {
+            if (_lodash2.default.isArray(displayLogic.texts)) {
+                this._renderers.text.render(displayLogic.texts);
+            }
+        }
     }
 };

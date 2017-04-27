@@ -44,20 +44,8 @@ var Renderer = function () {
         key: '_makeDisplayObject',
         value: function _makeDisplayObject(itemLogic, texture) {
             var displayObject = new PIXI.Sprite(texture);
-            if (_lodash2.default.isObject(itemLogic)) {
-                if (_lodash2.default.isNumber(itemLogic.x)) {
-                    displayObject.x = itemLogic.x;
-                }
-                if (_lodash2.default.isNumber(itemLogic.y)) {
-                    displayObject.y = itemLogic.y;
-                }
-                if (_lodash2.default.isNumber(itemLogic.width)) {
-                    displayObject.width = itemLogic.width;
-                }
-                if (_lodash2.default.isNumber(itemLogic.height)) {
-                    displayObject.height = itemLogic.height;
-                }
-            }
+            Renderer._makeSize(displayObject, itemLogic);
+            Renderer._makePosition(displayObject, itemLogic);
             this._setButton(displayObject, itemLogic);
             return displayObject;
         }
@@ -113,6 +101,30 @@ var Renderer = function () {
         key: 'stage',
         get: function get() {
             return this._stage;
+        }
+    }], [{
+        key: '_makeSize',
+        value: function _makeSize(displayObject, itemLogic) {
+            if (_lodash2.default.isObject(itemLogic)) {
+                if (_lodash2.default.isNumber(itemLogic.width)) {
+                    displayObject.width = itemLogic.width;
+                }
+                if (_lodash2.default.isNumber(itemLogic.height)) {
+                    displayObject.height = itemLogic.height;
+                }
+            }
+        }
+    }, {
+        key: '_makePosition',
+        value: function _makePosition(displayObject, itemLogic) {
+            if (_lodash2.default.isObject(itemLogic)) {
+                if (_lodash2.default.isNumber(itemLogic.x)) {
+                    displayObject.x = itemLogic.x;
+                }
+                if (_lodash2.default.isNumber(itemLogic.y)) {
+                    displayObject.y = itemLogic.y;
+                }
+            }
         }
     }]);
 

@@ -44,18 +44,8 @@ var AnimationRenderer = function (_Renderer) {
                 } else {
                     throw new Error('Need width and height');
                 }
-                if (_lodash2.default.isNumber(itemLogic.x)) {
-                    displayObject.x = itemLogic.x;
-                }
-                if (_lodash2.default.isNumber(itemLogic.y)) {
-                    displayObject.y = itemLogic.y;
-                }
-                if (_lodash2.default.isNumber(itemLogic.width)) {
-                    displayObject.width = itemLogic.width;
-                }
-                if (_lodash2.default.isNumber(itemLogic.height)) {
-                    displayObject.height = itemLogic.height;
-                }
+                _renderer2.default._makeSize(displayObject, itemLogic);
+                _renderer2.default._makePosition(displayObject, itemLogic);
                 this._setButton(displayObject, itemLogic);
             }
             return displayObject;
