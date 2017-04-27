@@ -5,9 +5,8 @@ export default class AnimationRenderer extends Renderer {
     _makeDisplayObject(itemLogic, texture) {
         let displayObject = null;
         if (_.isObject(itemLogic)) {
-            if (_.isNumber(itemLogic.width) && _.isNumber(itemLogic.height)) {
-
-                displayObject = new PIXI.extras.AnimatedSprite(AnimationRenderer._makeTexture(texture, itemLogic.width, itemLogic.height));
+            if (_.isNumber(itemLogic.partWidth) && _.isNumber(itemLogic.partHeight)) {
+                displayObject = new PIXI.extras.AnimatedSprite(AnimationRenderer._makeTexture(texture, itemLogic.partWidth, itemLogic.partHeight));
                 displayObject.gotoAndPlay(0);
             } else {
                 throw new Error('Need width and height');
@@ -17,6 +16,12 @@ export default class AnimationRenderer extends Renderer {
             }
             if (_.isNumber(itemLogic.y)) {
                 displayObject.y = itemLogic.y;
+            }
+            if (_.isNumber(itemLogic.width)) {
+                displayObject.width = itemLogic.width;
+            }
+            if (_.isNumber(itemLogic.height)) {
+                displayObject.height = itemLogic.height;
             }
             this._setButton(displayObject, itemLogic);
         }

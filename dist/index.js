@@ -177,7 +177,7 @@ var Director = function () {
         get: function get() {
             var resources = this._resources;
             return function (number) {
-                return resources[number].url;
+                return resources[number];
             };
         }
     }]);

@@ -38,9 +38,8 @@ var AnimationRenderer = function (_Renderer) {
         value: function _makeDisplayObject(itemLogic, texture) {
             var displayObject = null;
             if (_lodash2.default.isObject(itemLogic)) {
-                if (_lodash2.default.isNumber(itemLogic.width) && _lodash2.default.isNumber(itemLogic.height)) {
-
-                    displayObject = new PIXI.extras.AnimatedSprite(AnimationRenderer._makeTexture(texture, itemLogic.width, itemLogic.height));
+                if (_lodash2.default.isNumber(itemLogic.partWidth) && _lodash2.default.isNumber(itemLogic.partHeight)) {
+                    displayObject = new PIXI.extras.AnimatedSprite(AnimationRenderer._makeTexture(texture, itemLogic.partWidth, itemLogic.partHeight));
                     displayObject.gotoAndPlay(0);
                 } else {
                     throw new Error('Need width and height');
@@ -50,6 +49,12 @@ var AnimationRenderer = function (_Renderer) {
                 }
                 if (_lodash2.default.isNumber(itemLogic.y)) {
                     displayObject.y = itemLogic.y;
+                }
+                if (_lodash2.default.isNumber(itemLogic.width)) {
+                    displayObject.width = itemLogic.width;
+                }
+                if (_lodash2.default.isNumber(itemLogic.height)) {
+                    displayObject.height = itemLogic.height;
                 }
                 this._setButton(displayObject, itemLogic);
             }

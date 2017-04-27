@@ -59,7 +59,7 @@ export default class Director {
     get resourceNumberToUrl() {
         const resources = this._resources;
         return (number) => {
-            return resources[number].url
+            return resources[number];
         };
     }
 
