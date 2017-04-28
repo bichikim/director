@@ -6,6 +6,8 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+
 var _lodash = require('lodash');
 
 var _lodash2 = _interopRequireDefault(_lodash);
@@ -27,31 +29,74 @@ var PIXI = require('pixi.js');
 var TextRenderer = function (_Renderer) {
     _inherits(TextRenderer, _Renderer);
 
-    function TextRenderer() {
+    function TextRenderer(director) {
         _classCallCheck(this, TextRenderer);
 
-        return _possibleConstructorReturn(this, (TextRenderer.__proto__ || Object.getPrototypeOf(TextRenderer)).apply(this, arguments));
+        var _this = _possibleConstructorReturn(this, (TextRenderer.__proto__ || Object.getPrototypeOf(TextRenderer)).call(this, director));
+
+        _this._data = director.data;
+        return _this;
     }
 
     _createClass(TextRenderer, [{
-        key: '_makeDisplayObject',
-        value: function _makeDisplayObject(itemLogic) {
-            var displayObject = new PIXI.Text(itemLogic.text, TextRenderer._textStyle(itemLogic));
-            _renderer2.default._makeSize(displayObject, itemLogic);
-            _renderer2.default._makePosition(displayObject, itemLogic);
-            this._setButton(displayObject, itemLogic);
-            return displayObject;
-        }
-    }, {
         key: '_add',
         value: function _add(logic) {
             if (_lodash2.default.isObject(logic)) {
                 if (_lodash2.default.isString(logic.text)) {
-                    this._stage.addChild(this._makeDisplayObject(logic));
+                    var displayObject = this._makeDisplayObject(logic);
+                    displayObject = this._setStatus(logic, displayObject);
+                    this._stage.addChild(displayObject);
                 }
             }
         }
+    }, {
+        key: '_makeDisplayObject',
+        value: function _makeDisplayObject(logic) {
+            return new PIXI.Text(this._addDataToText(logic.text), TextRenderer._textStyle(logic));
+        }
+    }, {
+        key: '_setWatch',
+        value: function _setWatch(displayObject, logic) {
+            var _this2 = this;
+
+            if (_lodash2.default.isBoolean(logic.watch) && logic.watch) {
+                this._ticker.add(function () {
+                    displayObject.text = _this2._addDataToText(logic.text);
+                });
+            }
+            _get(TextRenderer.prototype.__proto__ || Object.getPrototypeOf(TextRenderer.prototype), '_setWatch', this).call(this, displayObject, logic);
+        }
+    }, {
+        key: '_addDataToText',
+        value: function _addDataToText(text) {
+            var returnText = text;
+            if (_lodash2.default.isObject(this._data.me)) {
+                returnText = TextRenderer._addData(returnText, this._data.me.name, '-myName');
+            }
+            if (_lodash2.default.isArray(this._data.sideCount)) {
+                returnText = TextRenderer._addData(returnText, this._data.sideCount, '-sideCount');
+            }
+            return returnText;
+        }
     }], [{
+        key: '_addData',
+        value: function _addData(text, data, identifier) {
+            var hasIdentifierIndex = 2,
+                parts = text.split(identifier);
+
+            if (parts.length < hasIdentifierIndex) {
+                return text;
+            }
+
+            if (_lodash2.default.isArray(data)) {
+                var index = Number(text.charAt(0));
+                if (_lodash2.default.isNumber(index)) {
+                    return '' + parts.shift() + data[index] + parts.shift().substring(1);
+                }
+            }
+            return '' + parts.shift() + data + parts.shift();
+        }
+    }, {
         key: '_textStyle',
         value: function _textStyle(logic) {
             if (_lodash2.default.isObject(logic)) {
@@ -73,7 +118,7 @@ var TextRenderer = function (_Renderer) {
                         dropShadowAngle: _lodash2.default.isNumber(style.dropShadowAngle) ? style.dropShadowAngle : null,
                         dropShadowDistance: _lodash2.default.isNumber(style.dropShadowDistance) ? style.dropShadowDistanc : null,
                         wordWrap: _lodash2.default.isBoolean(style.wordWrap) ? style.wordWrap : null,
-                        wordWrapWidth: _lodash2.default.isNumber(style.fontStyle) ? style.fontStyle : null
+                        wordWrapWidth: _lodash2.default.isNumber(style.wordWrapWidth) ? style.wordWrapWidth : null
                     });
                 }
             }

@@ -31,6 +31,7 @@ var Renderer = function () {
         this._resourceLoader = this._director.resourceLoader;
         this._resourceNumberToUrl = this._director.resourceNumberToUrl;
         this._action = this._director.action;
+        this._ticker = this._director.ticker;
     }
 
     _createClass(Renderer, [{
@@ -39,15 +40,6 @@ var Renderer = function () {
             if (_lodash2.default.isNumber(itemLogic.resource)) {
                 itemLogic.resource = this._resourceNumberToUrl(itemLogic.resource);
             }
-        }
-    }, {
-        key: '_makeDisplayObject',
-        value: function _makeDisplayObject(itemLogic, texture) {
-            var displayObject = new PIXI.Sprite(texture);
-            Renderer._makeSize(displayObject, itemLogic);
-            Renderer._makePosition(displayObject, itemLogic);
-            this._setButton(displayObject, itemLogic);
-            return displayObject;
         }
     }, {
         key: 'clear',
@@ -68,26 +60,6 @@ var Renderer = function () {
             }
         }
     }, {
-        key: '_setButton',
-        value: function _setButton(displayObject, itemLogic) {
-            displayObject.buttonMode = false;
-            displayObject.interactive = true;
-            if (_lodash2.default.isObject(itemLogic.on)) {
-                _button2.default.make(displayObject, itemLogic.on, this._action);
-            }
-        }
-    }, {
-        key: '_loaded',
-        value: function _loaded(resource) {
-            var _this2 = this;
-
-            _lodash2.default.forEach(this._logicArray, function (logic) {
-                if (logic.resource === resource.name) {
-                    _this2._stage.addChild(_this2._makeDisplayObject(logic, resource.texture));
-                }
-            });
-        }
-    }, {
         key: '_add',
         value: function _add(logic) {
             if (_lodash2.default.isObject(logic)) {
@@ -98,13 +70,62 @@ var Renderer = function () {
             }
         }
     }, {
+        key: '_loaded',
+        value: function _loaded(resource) {
+            var _this2 = this;
+
+            _lodash2.default.forEach(this._logicArray, function (logic) {
+                if (logic.resource === resource.name) {
+                    var displayObject = _this2._makeDisplayObject(logic, resource.texture);
+                    displayObject = _this2._setStatus(logic, displayObject);
+                    _this2._stage.addChild(displayObject);
+                }
+            });
+        }
+
+        //eslint-disable-next-line class-methods-use-this
+
+    }, {
+        key: '_makeDisplayObject',
+        value: function _makeDisplayObject(logic, texture) {
+            return new PIXI.Sprite(texture);
+        }
+    }, {
+        key: '_setStatus',
+        value: function _setStatus(logic, displayObject) {
+            Renderer._setSize(displayObject, logic);
+            Renderer._makePosition(displayObject, logic);
+            this._setWatch(displayObject, logic);
+            this._setButton(displayObject, logic);
+            return displayObject;
+        }
+    }, {
+        key: '_setButton',
+        value: function _setButton(displayObject, itemLogic) {
+            displayObject.buttonMode = false;
+            displayObject.interactive = true;
+            if (_lodash2.default.isObject(itemLogic.on)) {
+                _button2.default.make(displayObject, itemLogic.on, this._action);
+            }
+        }
+    }, {
+        key: '_setWatch',
+        value: function _setWatch(displayObject, logic) {
+            if (_lodash2.default.isBoolean(logic.watch) && logic.watch) {
+                this._ticker.add(function () {
+                    Renderer._setSize(displayObject, logic);
+                    Renderer._makePosition(displayObject, logic);
+                });
+            }
+        }
+    }, {
         key: 'stage',
         get: function get() {
             return this._stage;
         }
     }], [{
-        key: '_makeSize',
-        value: function _makeSize(displayObject, itemLogic) {
+        key: '_setSize',
+        value: function _setSize(displayObject, itemLogic) {
             if (_lodash2.default.isObject(itemLogic)) {
                 if (_lodash2.default.isNumber(itemLogic.width)) {
                     displayObject.width = itemLogic.width;

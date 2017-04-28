@@ -35,6 +35,8 @@ var AnimationRenderer = function (_Renderer) {
 
     _createClass(AnimationRenderer, [{
         key: '_makeDisplayObject',
+
+        //eslint-disable-next-line class-methods-use-this
         value: function _makeDisplayObject(itemLogic, texture) {
             var displayObject = null;
             if (_lodash2.default.isObject(itemLogic)) {
@@ -44,9 +46,6 @@ var AnimationRenderer = function (_Renderer) {
                 } else {
                     throw new Error('Need width and height');
                 }
-                _renderer2.default._makeSize(displayObject, itemLogic);
-                _renderer2.default._makePosition(displayObject, itemLogic);
-                this._setButton(displayObject, itemLogic);
             }
             return displayObject;
         }

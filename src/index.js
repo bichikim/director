@@ -15,6 +15,7 @@ export default class Director {
         this._displayLogic = null;
         this._resources = null;
         this._urls = null;
+        this._logic = null;
         this._correntDisplayNumber = 0;
         this._renderers = {};
         this._waiter = new Waiter();
@@ -24,6 +25,7 @@ export default class Director {
         this._setOptions(options);
         this._waiter.bind(this);
     }
+
 
     get stage() {
         return this._app.stage;
@@ -56,11 +58,24 @@ export default class Director {
         }
     }
 
+    get data() {
+        return {
+            me: _.isObject(this._logic.me) ? this._logic.me : '',
+            side: _.isArray(this._logic.side) ? this._logic.side : [],
+            sideCount: _.isArray(this._logic.sideCount) ? this._logic.sideCount : [],
+        }
+    }
+
+
     get resourceNumberToUrl() {
         const resources = this._resources;
         return (number) => {
             return resources[number];
         };
+    }
+
+    get ticker(){
+        return this._app.ticker;
     }
 
     display(displayNumber) {
@@ -127,6 +142,7 @@ export default class Director {
                 this._resourceLoad(this._resources);
             }
         }
+        this._logic = logic;
     }
 
     _resourceLoad(resources) {

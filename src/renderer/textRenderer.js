@@ -3,15 +3,61 @@ import Renderer from './renderer';
 const PIXI = require('pixi.js');
 export default class TextRenderer extends Renderer {
 
-
-    _makeDisplayObject(itemLogic) {
-        const displayObject = new PIXI.Text(itemLogic.text, TextRenderer._textStyle(itemLogic));
-        Renderer._makeSize(displayObject, itemLogic);
-        Renderer._makePosition(displayObject, itemLogic);
-        this._setButton(displayObject, itemLogic);
-        return displayObject;
+    constructor(director) {
+        super(director);
+        this._data = director.data;
     }
 
+    _add(logic) {
+        if (_.isObject(logic)) {
+            if (_.isString(logic.text)) {
+                let displayObject = this._makeDisplayObject(logic);
+                displayObject = this._setStatus(logic, displayObject);
+                this._stage.addChild(displayObject);
+            }
+        }
+    }
+
+    _makeDisplayObject(logic) {
+        return new PIXI.Text(this._addDataToText(logic.text), TextRenderer._textStyle(logic));
+    }
+
+    _setWatch(displayObject, logic) {
+        if (_.isBoolean(logic.watch) && logic.watch) {
+            this._ticker.add(() => {
+                displayObject.text = this._addDataToText(logic.text);
+            });
+        }
+        super._setWatch(displayObject, logic);
+    }
+
+    _addDataToText(text) {
+        let returnText = text;
+        if (_.isObject(this._data.me)) {
+            returnText = TextRenderer._addData(returnText, this._data.me.name, '-myName');
+        }
+        if (_.isArray(this._data.sideCount)) {
+            returnText = TextRenderer._addData(returnText, this._data.sideCount, '-sideCount');
+        }
+        return returnText;
+    }
+
+    static _addData(text, data, identifier) {
+        const hasIdentifierIndex = 2,
+            parts = text.split(identifier);
+
+        if (parts.length < hasIdentifierIndex) {
+            return text;
+        }
+
+        if (_.isArray(data)) {
+            let index = Number(text.charAt(0));
+            if (_.isNumber(index)) {
+                return `${parts.shift()}${data[index]}${(parts.shift()).substring(1)}`
+            }
+        }
+        return `${parts.shift()}${data}${parts.shift()}`
+    }
 
     static _textStyle(logic) {
         if (_.isObject(logic)) {
@@ -32,17 +78,10 @@ export default class TextRenderer extends Renderer {
                     dropShadowAngle: _.isNumber(style.dropShadowAngle) ? style.dropShadowAngle : null,
                     dropShadowDistance: _.isNumber(style.dropShadowDistance) ? style.dropShadowDistanc : null,
                     wordWrap: _.isBoolean(style.wordWrap) ? style.wordWrap : null,
-                    wordWrapWidth: _.isNumber(style.fontStyle) ? style.fontStyle : null,
+                    wordWrapWidth: _.isNumber(style.wordWrapWidth) ? style.wordWrapWidth : null,
                 });
             }
         }
     }
 
-    _add(logic) {
-        if (_.isObject(logic)) {
-            if (_.isString(logic.text)) {
-                this._stage.addChild(this._makeDisplayObject(logic));
-            }
-        }
-    }
 }

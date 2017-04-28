@@ -52,6 +52,7 @@ var Director = function () {
         this._displayLogic = null;
         this._resources = null;
         this._urls = null;
+        this._logic = null;
         this._correntDisplayNumber = 0;
         this._renderers = {};
         this._waiter = new _bichiWaiter2.default();
@@ -134,6 +135,7 @@ var Director = function () {
                     this._resourceLoad(this._resources);
                 }
             }
+            this._logic = logic;
         }
     }, {
         key: '_resourceLoad',
@@ -178,12 +180,26 @@ var Director = function () {
             };
         }
     }, {
+        key: 'data',
+        get: function get() {
+            return {
+                me: _lodash2.default.isObject(this._logic.me) ? this._logic.me : '',
+                side: _lodash2.default.isArray(this._logic.side) ? this._logic.side : [],
+                sideCount: _lodash2.default.isArray(this._logic.sideCount) ? this._logic.sideCount : []
+            };
+        }
+    }, {
         key: 'resourceNumberToUrl',
         get: function get() {
             var resources = this._resources;
             return function (number) {
                 return resources[number];
             };
+        }
+    }, {
+        key: 'ticker',
+        get: function get() {
+            return this._app.ticker;
         }
     }]);
 

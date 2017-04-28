@@ -10,41 +10,12 @@ export default class Renderer {
         this._resourceLoader = this._director.resourceLoader;
         this._resourceNumberToUrl = this._director.resourceNumberToUrl;
         this._action = this._director.action;
+        this._ticker = this._director.ticker;
     }
 
     _resourceAssembler(itemLogic) {
         if (_.isNumber(itemLogic.resource)) {
             itemLogic.resource = this._resourceNumberToUrl(itemLogic.resource);
-        }
-    }
-
-    _makeDisplayObject(itemLogic, texture) {
-        const displayObject = new PIXI.Sprite(texture);
-        Renderer._makeSize(displayObject, itemLogic);
-        Renderer._makePosition(displayObject, itemLogic);
-        this._setButton(displayObject, itemLogic);
-        return displayObject;
-    }
-
-    static _makeSize(displayObject, itemLogic) {
-        if (_.isObject(itemLogic)) {
-            if (_.isNumber(itemLogic.width)) {
-                displayObject.width = itemLogic.width;
-            }
-            if (_.isNumber(itemLogic.height)) {
-                displayObject.height = itemLogic.height;
-            }
-        }
-    }
-
-    static _makePosition(displayObject, itemLogic) {
-        if (_.isObject(itemLogic)) {
-            if (_.isNumber(itemLogic.x)) {
-                displayObject.x = itemLogic.x;
-            }
-            if (_.isNumber(itemLogic.y)) {
-                displayObject.y = itemLogic.y;
-            }
         }
     }
 
@@ -66,6 +37,60 @@ export default class Renderer {
         }
     }
 
+    _add(logic) {
+        if (_.isObject(logic)) {
+            this._resourceAssembler(logic);
+            if (_.isString(logic.resource)) {
+                this._resourceLoader.getResource(logic.resource, this._loaded.bind(this));
+            }
+        }
+    }
+
+    _loaded(resource) {
+        _.forEach(this._logicArray, (logic) => {
+            if (logic.resource === resource.name) {
+                let displayObject = this._makeDisplayObject(logic, resource.texture);
+                displayObject = this._setStatus(logic, displayObject);
+                this._stage.addChild(displayObject);
+            }
+        });
+    }
+
+//eslint-disable-next-line class-methods-use-this
+    _makeDisplayObject(logic, texture) {
+        return new PIXI.Sprite(texture);
+    }
+
+    _setStatus(logic, displayObject) {
+        Renderer._setSize(displayObject, logic);
+        Renderer._makePosition(displayObject, logic);
+        this._setWatch(displayObject, logic);
+        this._setButton(displayObject, logic);
+        return displayObject;
+    }
+
+    static _setSize(displayObject, itemLogic) {
+        if (_.isObject(itemLogic)) {
+            if (_.isNumber(itemLogic.width)) {
+                displayObject.width = itemLogic.width;
+            }
+            if (_.isNumber(itemLogic.height)) {
+                displayObject.height = itemLogic.height;
+            }
+        }
+    }
+
+    static _makePosition(displayObject, itemLogic) {
+        if (_.isObject(itemLogic)) {
+            if (_.isNumber(itemLogic.x)) {
+                displayObject.x = itemLogic.x;
+            }
+            if (_.isNumber(itemLogic.y)) {
+                displayObject.y = itemLogic.y;
+            }
+        }
+    }
+
     _setButton(displayObject, itemLogic) {
         displayObject.buttonMode = false;
         displayObject.interactive = true;
@@ -74,20 +99,12 @@ export default class Renderer {
         }
     }
 
-    _loaded(resource) {
-        _.forEach(this._logicArray, (logic) => {
-            if (logic.resource === resource.name) {
-                this._stage.addChild(this._makeDisplayObject(logic, resource.texture));
-            }
-        });
-    }
-
-    _add(logic) {
-        if (_.isObject(logic)) {
-            this._resourceAssembler(logic);
-            if (_.isString(logic.resource)) {
-                this._resourceLoader.getResource(logic.resource, this._loaded.bind(this));
-            }
+    _setWatch(displayObject, logic) {
+        if (_.isBoolean(logic.watch) && logic.watch) {
+            this._ticker.add(() => {
+                Renderer._setSize(displayObject, logic);
+                Renderer._makePosition(displayObject, logic);
+            });
         }
     }
 }

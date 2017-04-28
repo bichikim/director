@@ -39,9 +39,12 @@ var VideoRenderer = function (_Renderer) {
             if (_lodash2.default.isObject(logic)) {
                 this._resourceAssembler(logic);
                 if (_lodash2.default.isString(logic.resource)) {
-                    var texture = PIXI.Texture.fromVideo(logic.resource);
+                    var displayObject = null,
+                        texture = PIXI.Texture.fromVideo(logic.resource);
                     VideoRenderer._setVideo(logic, texture.baseTexture.source);
-                    this._stage.addChild(this._makeDisplayObject(logic, texture));
+                    displayObject = this._makeDisplayObject(logic, texture);
+                    displayObject = this._setStatus(logic, displayObject);
+                    this._stage.addChild(displayObject);
                 }
             }
         }
