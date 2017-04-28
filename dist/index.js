@@ -45,7 +45,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 var PIXI = require('pixi.js');
 
 var Director = function () {
-    function Director(width, height, logic, data, options) {
+    function Director(width, height, logic, options) {
         _classCallCheck(this, Director);
 
         this._elements = null;

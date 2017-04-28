@@ -10,7 +10,7 @@ const PIXI = require('pixi.js');
 
 export default class Director {
 
-    constructor(width, height, logic, data, options) {
+    constructor(width, height, logic, options) {
         this._elements = null;
         this._displayLogic = null;
         this._resources = null;
