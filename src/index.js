@@ -77,6 +77,10 @@ export default class Director {
         });
     }
 
+    resize(element) {
+        this.view.style.width = `${element.clientWidth}px`;
+    }
+
     _setOptions(options) {
         let rendererConfig = null;
         if (_.isObject(options)) {

@@ -79,6 +79,11 @@ var Director = function () {
             });
         }
     }, {
+        key: 'resize',
+        value: function resize(element) {
+            this.view.style.width = element.clientWidth + 'px';
+        }
+    }, {
         key: '_setOptions',
         value: function _setOptions(options) {
             var _this = this;
