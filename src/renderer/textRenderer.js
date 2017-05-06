@@ -37,7 +37,12 @@ export default class TextRenderer extends Renderer {
             returnText = TextRenderer._addData(returnText, this._data.me.name, '-myName');
         }
         if (_.isArray(this._data.sideCount)) {
+
             returnText = TextRenderer._addData(returnText, this._data.sideCount, '-sideCount');
+        }
+
+        if (_.isString(this._data.title)) {
+            returnText = TextRenderer._addData(returnText, this._data.title, '-title');
         }
         return returnText;
     }
@@ -57,6 +62,8 @@ export default class TextRenderer extends Renderer {
                 if (itemLogic.style.align === 'center') {
                     //eslint-disable-next-line no-magic-numbers
                     displayObject.x = itemLogic.x - (displayObject.width / 2);
+                }else if (itemLogic.style.align === 'right'){
+                    displayObject.x = itemLogic.x - displayObject.width;
                 }
             }
         }
@@ -71,7 +78,8 @@ export default class TextRenderer extends Renderer {
         }
 
         if (_.isArray(data)) {
-            let index = Number(text.charAt(0));
+
+            let index = Number(parts[1].charAt(0));
             if (_.isNumber(index)) {
                 return `${parts.shift()}${data[index]}${(parts.shift()).substring(1)}`
             }

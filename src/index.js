@@ -63,6 +63,7 @@ export default class Director {
             me: _.isObject(this._logic.me) ? this._logic.me : '',
             side: _.isArray(this._logic.side) ? this._logic.side : [],
             sideCount: _.isArray(this._logic.sideCount) ? this._logic.sideCount : [],
+            title: _.isString(this._logic.title) ? this._logic.title : '',
         }
     }
 

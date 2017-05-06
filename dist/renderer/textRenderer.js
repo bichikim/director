@@ -74,7 +74,12 @@ var TextRenderer = function (_Renderer) {
                 returnText = TextRenderer._addData(returnText, this._data.me.name, '-myName');
             }
             if (_lodash2.default.isArray(this._data.sideCount)) {
+
                 returnText = TextRenderer._addData(returnText, this._data.sideCount, '-sideCount');
+            }
+
+            if (_lodash2.default.isString(this._data.title)) {
+                returnText = TextRenderer._addData(returnText, this._data.title, '-title');
             }
             return returnText;
         }
@@ -97,6 +102,8 @@ var TextRenderer = function (_Renderer) {
                     if (itemLogic.style.align === 'center') {
                         //eslint-disable-next-line no-magic-numbers
                         displayObject.x = itemLogic.x - displayObject.width / 2;
+                    } else if (itemLogic.style.align === 'right') {
+                        displayObject.x = itemLogic.x - displayObject.width;
                     }
                 }
             }
@@ -112,7 +119,8 @@ var TextRenderer = function (_Renderer) {
             }
 
             if (_lodash2.default.isArray(data)) {
-                var index = Number(text.charAt(0));
+
+                var index = Number(parts[1].charAt(0));
                 if (_lodash2.default.isNumber(index)) {
                     return '' + parts.shift() + data[index] + parts.shift().substring(1);
                 }

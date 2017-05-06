@@ -185,7 +185,8 @@ var Director = function () {
             return {
                 me: _lodash2.default.isObject(this._logic.me) ? this._logic.me : '',
                 side: _lodash2.default.isArray(this._logic.side) ? this._logic.side : [],
-                sideCount: _lodash2.default.isArray(this._logic.sideCount) ? this._logic.sideCount : []
+                sideCount: _lodash2.default.isArray(this._logic.sideCount) ? this._logic.sideCount : [],
+                title: _lodash2.default.isString(this._logic.title) ? this._logic.title : ''
             };
         }
     }, {
