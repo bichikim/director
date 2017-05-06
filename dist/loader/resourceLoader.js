@@ -54,13 +54,13 @@ var ResourceLoader = function () {
 
 
         /**
-         * 로드 가능한 로더를 가져온다 없을 경우 만든다. TODO 너무 많이 로드를 생성 할 경우 문제가 생긴다 적당한 해결 책이 필요하다 나중에 만들어야 됨
+         * 로드 가능한 로더를 가져온다 없을 경우 만든다. TODO 너무 많이 로드를 생성 할 경우 가 생길 수 있음 적당한 해결 책이 필요하다 (예 10개 이상 로더를 만들면 1~2초 정도 기다린 후 시도한다.) 나중에 만들어야 됨
          * @return {*}
          * @private
          */
         value: function _getAbleApp() {
             _lodash2.default.forEach(this._apps, function (app) {
-                if (!ResourceLoader.isLoading(app)) {
+                if (!ResourceLoader._isLoading(app)) {
                     return app;
                 }
             });
@@ -182,7 +182,7 @@ var ResourceLoader = function () {
             var _this3 = this;
 
             _lodash2.default.forEach(this._apps, function (app) {
-                if (!ResourceLoader.isLoading(app)) {
+                if (!ResourceLoader._isLoading(app)) {
                     _this3.on('progress', _this3._eachComplete.bind(_this3), app);
                     return app.load();
                 }
@@ -222,8 +222,8 @@ var ResourceLoader = function () {
          */
 
     }, {
-        key: 'isLoading',
-        value: function isLoading(app) {
+        key: '_isLoading',
+        value: function _isLoading(app) {
             return app.loading;
         }
     }]);

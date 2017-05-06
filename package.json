@@ -36,8 +36,8 @@
   },
   "dependencies": {
     "lodash": "^4.17.4",
-    "bichi-assembler": "^0.0.2",
-    "bichi-waiter": "^1.0.16",
-    "pixi.js": "^4.5.0"
+    "bichi-assembler": "^0.0.3",
+    "bichi-waiter": "^1.0.20",
+    "pixi.js": "^4.5.1"
   }
 }

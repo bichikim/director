@@ -93,37 +93,13 @@ var Renderer = function () {
     }, {
         key: '_setStatus',
         value: function _setStatus(logic, displayObject) {
-            Renderer._setSize(displayObject, logic);
-            Renderer._makePosition(displayObject, logic);
+            this._setSize(displayObject, logic);
+            this._makePosition(displayObject, logic);
             this._setWatch(displayObject, logic);
             this._setButton(displayObject, logic);
             return displayObject;
         }
     }, {
-        key: '_setButton',
-        value: function _setButton(displayObject, itemLogic) {
-            displayObject.buttonMode = false;
-            displayObject.interactive = true;
-            if (_lodash2.default.isObject(itemLogic.on)) {
-                _button2.default.make(displayObject, itemLogic.on, this._action);
-            }
-        }
-    }, {
-        key: '_setWatch',
-        value: function _setWatch(displayObject, logic) {
-            if (_lodash2.default.isBoolean(logic.watch) && logic.watch) {
-                this._ticker.add(function () {
-                    Renderer._setSize(displayObject, logic);
-                    Renderer._makePosition(displayObject, logic);
-                });
-            }
-        }
-    }, {
-        key: 'stage',
-        get: function get() {
-            return this._stage;
-        }
-    }], [{
         key: '_setSize',
         value: function _setSize(displayObject, itemLogic) {
             if (_lodash2.default.isObject(itemLogic)) {
@@ -146,6 +122,32 @@ var Renderer = function () {
                     displayObject.y = itemLogic.y;
                 }
             }
+        }
+    }, {
+        key: '_setButton',
+        value: function _setButton(displayObject, itemLogic) {
+            displayObject.buttonMode = false;
+            displayObject.interactive = true;
+            if (_lodash2.default.isObject(itemLogic.on)) {
+                _button2.default.make(displayObject, itemLogic.on, this._action);
+            }
+        }
+    }, {
+        key: '_setWatch',
+        value: function _setWatch(displayObject, logic) {
+            var _this3 = this;
+
+            if (_lodash2.default.isBoolean(logic.watch) && logic.watch) {
+                this._ticker.add(function () {
+                    _this3._setSize(displayObject, logic);
+                    _this3._makePosition(displayObject, logic);
+                });
+            }
+        }
+    }, {
+        key: 'stage',
+        get: function get() {
+            return this._stage;
         }
     }]);
 

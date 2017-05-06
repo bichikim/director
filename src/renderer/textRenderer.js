@@ -42,6 +42,26 @@ export default class TextRenderer extends Renderer {
         return returnText;
     }
 
+    //eslint-disable-next-line class-methods-use-this
+    _makePosition(displayObject, itemLogic) {
+        if (_.isObject(itemLogic)) {
+            if (_.isNumber(itemLogic.x)) {
+                displayObject.x = itemLogic.x;
+            }
+            if (_.isNumber(itemLogic.y)) {
+                displayObject.y = itemLogic.y;
+            }
+        }
+        if (_.isObject(itemLogic.style)) {
+            if (_.isString(itemLogic.style.align)) {
+                if (itemLogic.style.align === 'center') {
+                    //eslint-disable-next-line no-magic-numbers
+                    displayObject.x = itemLogic.x - (displayObject.width / 2);
+                }
+            }
+        }
+    }
+
     static _addData(text, data, identifier) {
         const hasIdentifierIndex = 2,
             parts = text.split(identifier);

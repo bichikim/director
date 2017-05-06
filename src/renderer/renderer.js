@@ -62,14 +62,14 @@ export default class Renderer {
     }
 
     _setStatus(logic, displayObject) {
-        Renderer._setSize(displayObject, logic);
-        Renderer._makePosition(displayObject, logic);
+        this._setSize(displayObject, logic);
+        this._makePosition(displayObject, logic);
         this._setWatch(displayObject, logic);
         this._setButton(displayObject, logic);
         return displayObject;
     }
 
-    static _setSize(displayObject, itemLogic) {
+    _setSize(displayObject, itemLogic) {
         if (_.isObject(itemLogic)) {
             if (_.isNumber(itemLogic.width)) {
                 displayObject.width = itemLogic.width;
@@ -80,7 +80,7 @@ export default class Renderer {
         }
     }
 
-    static _makePosition(displayObject, itemLogic) {
+    _makePosition(displayObject, itemLogic) {
         if (_.isObject(itemLogic)) {
             if (_.isNumber(itemLogic.x)) {
                 displayObject.x = itemLogic.x;
@@ -102,8 +102,8 @@ export default class Renderer {
     _setWatch(displayObject, logic) {
         if (_.isBoolean(logic.watch) && logic.watch) {
             this._ticker.add(() => {
-                Renderer._setSize(displayObject, logic);
-                Renderer._makePosition(displayObject, logic);
+                this._setSize(displayObject, logic);
+                this._makePosition(displayObject, logic);
             });
         }
     }

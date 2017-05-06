@@ -78,6 +78,29 @@ var TextRenderer = function (_Renderer) {
             }
             return returnText;
         }
+
+        //eslint-disable-next-line class-methods-use-this
+
+    }, {
+        key: '_makePosition',
+        value: function _makePosition(displayObject, itemLogic) {
+            if (_lodash2.default.isObject(itemLogic)) {
+                if (_lodash2.default.isNumber(itemLogic.x)) {
+                    displayObject.x = itemLogic.x;
+                }
+                if (_lodash2.default.isNumber(itemLogic.y)) {
+                    displayObject.y = itemLogic.y;
+                }
+            }
+            if (_lodash2.default.isObject(itemLogic.style)) {
+                if (_lodash2.default.isString(itemLogic.style.align)) {
+                    if (itemLogic.style.align === 'center') {
+                        //eslint-disable-next-line no-magic-numbers
+                        displayObject.x = itemLogic.x - displayObject.width / 2;
+                    }
+                }
+            }
+        }
     }], [{
         key: '_addData',
         value: function _addData(text, data, identifier) {

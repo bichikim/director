@@ -54,7 +54,7 @@ var RectangleRenderer = function (_Renderer) {
                     displayObject.drawRect(0, 0, itemLogic.width, itemLogic.height);
                 }
             }
-            _renderer2.default._makePosition(displayObject, itemLogic);
+            this._makePosition(displayObject, itemLogic);
             this._setButton(displayObject, itemLogic);
             return displayObject;
         }

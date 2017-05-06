@@ -22,7 +22,7 @@ export default class RectangleRenderer extends Renderer {
                 displayObject.drawRect(0, 0, itemLogic.width, itemLogic.height);
             }
         }
-        Renderer._makePosition(displayObject, itemLogic);
+        this._makePosition(displayObject, itemLogic);
         this._setButton(displayObject, itemLogic);
         return displayObject;
     }
