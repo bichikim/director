@@ -1,6 +1,6 @@
 {
   "name": "bichi-director",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Rendering manager",
   "main": "./dist/index.js",
   "scripts": {
